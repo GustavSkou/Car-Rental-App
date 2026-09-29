@@ -4,6 +4,7 @@ import { UserService } from '@/Services/UserService';
 type AuthContextValue = {
   isLoggedIn: boolean;
   userEmail: string | null;
+  userId: number | null;
   login: (email: string, password: string) => boolean;
   logout: () => void;
 };
@@ -28,8 +29,10 @@ export function AuthProvider({ children }: PropsWithChildren) {
     setUserEmail(null);
   }
 
+  const userId = userEmail ? userService.getUserByEmail(userEmail)?.id ?? null : null;
+
   return (
-    <AuthContext.Provider value={{ isLoggedIn: userEmail !== null, userEmail, login, logout }}>
+    <AuthContext.Provider value={{ isLoggedIn: userEmail !== null, userEmail, userId, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

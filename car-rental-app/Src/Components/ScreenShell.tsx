@@ -43,9 +43,17 @@ export function RouteLink({ href, label, detail }: { href: string; label: string
   );
 }
 
-export function ActionButton({ href, label }: { href: string; label: string }) {
+export function ActionButton({ href, label, onPress }: { href?: string; label: string; onPress?: () => void }) {
+  if (onPress) {
+    return (
+      <Pressable onPress={onPress} style={styles.actionButton}>
+        <Text style={styles.actionText}>{label}</Text>
+      </Pressable>
+    );
+  }
+
   return (
-    <Link href={href as never} asChild>
+    <Link href={href! as never} asChild>
       <Pressable style={styles.actionButton}>
         <Text style={styles.actionText}>{label}</Text>
       </Pressable>
