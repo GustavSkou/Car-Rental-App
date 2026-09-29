@@ -1,0 +1,14 @@
+[
+  {
+    "id": "user-001",
+    "firstName": "Demo",
+    "lastName": "User",
+    "email": "user@gmail.com",
+    "password": "password",
+    "phoneNumber": "+45 20 00 00 00",
+    "role": "Renter",
+    "isVerified": true,
+    "createdAt": "2025-01-01T09:00:00.000Z",
+    "updatedAt": "2025-01-01T09:00:00.000Z"
+  }
+]

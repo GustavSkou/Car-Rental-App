@@ -1,0 +1,101 @@
+[
+  {
+    "id": "volvo-xc40",
+    "owner": {
+      "id": "owner-001",
+      "firstName": "Maja",
+      "lastName": "Nielsen",
+      "email": "maja@example.com",
+      "phoneNumber": "+45 20 11 22 33",
+      "role": "Owner",
+      "isVerified": true,
+      "createdAt": "2025-01-10T09:00:00.000Z",
+      "updatedAt": "2025-01-10T09:00:00.000Z"
+    },
+    "brand": "Volvo",
+    "model": "XC40",
+    "year": 2023,
+    "status": "Available",
+    "dailyPrice": 525,
+    "currency": "DKK",
+    "location": {
+      "country": "Denmark",
+      "city": "Odense",
+      "postalCode": "5000",
+      "streetName": "Vestergade",
+      "streetNumber": "12",
+      "latitude": 55.4038,
+      "longitude": 10.4024,
+      "pickupInstructions": "Meet by the main entrance."
+    },
+    "imageUrls": [],
+    "createdAt": "2025-02-12T10:00:00.000Z",
+    "updatedAt": "2025-02-12T10:00:00.000Z"
+  },
+  {
+    "id": "toyota-corolla",
+    "owner": {
+      "id": "owner-002",
+      "firstName": "Lars",
+      "lastName": "Jensen",
+      "email": "lars@example.com",
+      "phoneNumber": "+45 20 44 55 66",
+      "role": "Owner",
+      "isVerified": true,
+      "createdAt": "2025-01-18T09:00:00.000Z",
+      "updatedAt": "2025-01-18T09:00:00.000Z"
+    },
+    "brand": "Toyota",
+    "model": "Corolla",
+    "year": 2022,
+    "status": "Available",
+    "dailyPrice": 410,
+    "currency": "DKK",
+    "location": {
+      "country": "Denmark",
+      "city": "Aarhus",
+      "postalCode": "8000",
+      "streetName": "Nørrebrogade",
+      "streetNumber": "41",
+      "latitude": 56.1629,
+      "longitude": 10.2039,
+      "pickupInstructions": "The key is in the lockbox by the gate."
+    },
+    "imageUrls": [],
+    "createdAt": "2025-02-16T10:00:00.000Z",
+    "updatedAt": "2025-02-16T10:00:00.000Z"
+  },
+  {
+    "id": "ford-focus",
+    "owner": {
+      "id": "owner-003",
+      "firstName": "Sofie",
+      "lastName": "Hansen",
+      "email": "sofie@example.com",
+      "phoneNumber": "+45 20 77 88 99",
+      "role": "Owner",
+      "isVerified": true,
+      "createdAt": "2025-01-22T09:00:00.000Z",
+      "updatedAt": "2025-01-22T09:00:00.000Z"
+    },
+    "brand": "Ford",
+    "model": "Focus",
+    "year": 2021,
+    "status": "Available",
+    "dailyPrice": 365,
+    "currency": "DKK",
+    "location": {
+      "country": "Denmark",
+      "city": "Copenhagen",
+      "postalCode": "2100",
+      "streetName": "Østerbrogade",
+      "streetNumber": "88",
+      "latitude": 55.7001,
+      "longitude": 12.5851,
+      "pickupInstructions": "The car is parked on level two."
+    },
+    "imageUrls": [],
+    "createdAt": "2025-02-20T10:00:00.000Z",
+    "updatedAt": "2025-02-20T10:00:00.000Z"
+  }
+]

@@ -2,6 +2,7 @@ import { PropsWithChildren } from 'react';
 import { Link } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { NavigationBar } from './NavigationBar';
 
 type ScreenShellProps = PropsWithChildren<{
   eyebrow?: string;
@@ -26,6 +27,7 @@ export function ScreenShell({ eyebrow, title, description, backHref, children }:
         {description ? <Text style={styles.description}>{description}</Text> : null}
         <View style={styles.body}>{children}</View>
       </ScrollView>
+      <NavigationBar />
     </SafeAreaView>
   );
 }
