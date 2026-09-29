@@ -1,17 +1,6 @@
 [
   {
-    "id": "volvo-xc40",
-    "owner": {
-      "id": "owner-001",
-      "firstName": "Maja",
-      "lastName": "Nielsen",
-      "email": "maja@example.com",
-      "phoneNumber": "+45 20 11 22 33",
-      "role": "Owner",
-      "isVerified": true,
-      "createdAt": "2025-01-10T09:00:00.000Z",
-      "updatedAt": "2025-01-10T09:00:00.000Z"
-    },
+    "id": 1,
     "brand": "Volvo",
     "model": "XC40",
     "year": 2023,
@@ -30,21 +19,11 @@
     },
     "imageUrls": [],
     "createdAt": "2025-02-12T10:00:00.000Z",
-    "updatedAt": "2025-02-12T10:00:00.000Z"
+    "updatedAt": "2025-02-12T10:00:00.000Z",
+    "ownerId": 2
   },
   {
-    "id": "toyota-corolla",
-    "owner": {
-      "id": "owner-002",
-      "firstName": "Lars",
-      "lastName": "Jensen",
-      "email": "lars@example.com",
-      "phoneNumber": "+45 20 44 55 66",
-      "role": "Owner",
-      "isVerified": true,
-      "createdAt": "2025-01-18T09:00:00.000Z",
-      "updatedAt": "2025-01-18T09:00:00.000Z"
-    },
+    "id": 2,
     "brand": "Toyota",
     "model": "Corolla",
     "year": 2022,
@@ -55,7 +34,7 @@
       "country": "Denmark",
       "city": "Aarhus",
       "postalCode": "8000",
-      "streetName": "Nørrebrogade",
+      "streetName": "N\u00f8rrebrogade",
       "streetNumber": "41",
       "latitude": 56.1629,
       "longitude": 10.2039,
@@ -63,21 +42,11 @@
     },
     "imageUrls": [],
     "createdAt": "2025-02-16T10:00:00.000Z",
-    "updatedAt": "2025-02-16T10:00:00.000Z"
+    "updatedAt": "2025-02-16T10:00:00.000Z",
+    "ownerId": 3
   },
   {
-    "id": "ford-focus",
-    "owner": {
-      "id": "owner-003",
-      "firstName": "Sofie",
-      "lastName": "Hansen",
-      "email": "sofie@example.com",
-      "phoneNumber": "+45 20 77 88 99",
-      "role": "Owner",
-      "isVerified": true,
-      "createdAt": "2025-01-22T09:00:00.000Z",
-      "updatedAt": "2025-01-22T09:00:00.000Z"
-    },
+    "id": 3,
     "brand": "Ford",
     "model": "Focus",
     "year": 2021,
@@ -88,7 +57,7 @@
       "country": "Denmark",
       "city": "Copenhagen",
       "postalCode": "2100",
-      "streetName": "Østerbrogade",
+      "streetName": "\u00d8sterbrogade",
       "streetNumber": "88",
       "latitude": 55.7001,
       "longitude": 12.5851,
@@ -96,6 +65,7 @@
     },
     "imageUrls": [],
     "createdAt": "2025-02-20T10:00:00.000Z",
-    "updatedAt": "2025-02-20T10:00:00.000Z"
+    "updatedAt": "2025-02-20T10:00:00.000Z",
+    "ownerId": 4
   }
 ]

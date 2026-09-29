@@ -1,15 +1,13 @@
 import { BookingStatus } from './BookingStatus';
-import { Car } from './Car';
 import { Location } from './Location';
 import { PaymentStatus } from './PaymentStatus';
 import { Review } from './Review';
-import { Renter } from './Renter';
 import { TimePeriod } from './TimePeriod';
 
 export class Booking {
-  id: string;
-  car: Car;
-  renter: Renter;
+  id: number;
+  carId: number;
+  renterId: number;
   review?: Review;
   period: TimePeriod;
   pickUpLocation: Location;
@@ -22,9 +20,9 @@ export class Booking {
   updatedAt: Date;
 
   constructor(
-    id = '',
-    car = new Car(),
-    renter = new Renter(),
+    id = 0,
+    carId = 0,
+    renterId = 0,
     period = new TimePeriod(),
     pickUpLocation = new Location(),
     handOverLocation = new Location(),
@@ -37,8 +35,8 @@ export class Booking {
     updatedAt = new Date(),
   ) {
     this.id = id;
-    this.car = car;
-    this.renter = renter;
+    this.carId = carId;
+    this.renterId = renterId;
     this.period = period;
     this.pickUpLocation = pickUpLocation;
     this.handOverLocation = handOverLocation;

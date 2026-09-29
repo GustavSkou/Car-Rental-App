@@ -3,7 +3,7 @@ import { router, Redirect } from 'expo-router';
 import { Pressable, StyleSheet, Text, TextInput } from 'react-native';
 import { ScreenShell } from '@/Components/ScreenShell';
 import { useAuth } from '@/Context/AuthContext';
-import { CarRequest, Renter, TimePeriod } from '@/Models';
+import { CarRequest, TimePeriod } from '@/Models';
 import { CarRequestService, UserService } from '@/Services';
 
 const carRequestService = new CarRequestService();
@@ -47,18 +47,8 @@ export default function NewRequestScreen() {
     const now = new Date();
     carRequestService.createRequest(
       new CarRequest(
-        `request-${Date.now()}`,
-        new Renter(
-          renter.id,
-          renter.firstName,
-          renter.lastName,
-          renter.email,
-          renter.phoneNumber,
-          renter.role,
-          renter.isVerified,
-          renter.createdAt,
-          renter.updatedAt,
-        ),
+        Date.now(),
+        renter.id,
         parsedBudget,
         'DKK',
         period,

@@ -1,16 +1,14 @@
-import { User } from './User';
-
 export class Review {
-  id: string;
-  user: User;
+  id: number;
+  userId: number;
   text: string;
   rating: number;
   createdAt: Date;
-  bookingId?: string;
+  bookingId?: number;
 
-  constructor(id = '', user = new User(), text = '', rating = 0, createdAt = new Date(), bookingId?: string) {
+  constructor(id = 0, userId = 0, text = '', rating = 0, createdAt = new Date(), bookingId?: number) {
     this.id = id;
-    this.user = user;
+    this.userId = userId;
     this.text = text;
     this.rating = rating;
     this.createdAt = createdAt;

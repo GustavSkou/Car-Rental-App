@@ -1,10 +1,9 @@
 import { CarRequestStatus } from './CarRequestStatus';
-import { Renter } from './Renter';
 import { TimePeriod } from './TimePeriod';
 
 export class CarRequest {
-  id: string;
-  renter: Renter;
+  id: number;
+  renterId: number;
   budget: number;
   currency: string;
   period: TimePeriod;
@@ -13,8 +12,8 @@ export class CarRequest {
   updatedAt: Date;
 
   constructor(
-    id = '',
-    renter = new Renter(),
+    id = 0,
+    renterId = 0,
     budget = 0,
     currency = 'DKK',
     period = new TimePeriod(),
@@ -23,7 +22,7 @@ export class CarRequest {
     updatedAt = new Date(),
   ) {
     this.id = id;
-    this.renter = renter;
+    this.renterId = renterId;
     this.budget = budget;
     this.currency = currency;
     this.period = period;

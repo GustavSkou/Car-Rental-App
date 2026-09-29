@@ -1,14 +1,46 @@
 [
   {
-    "id": "user-001",
+    "id": 1,
     "firstName": "Demo",
     "lastName": "User",
     "email": "user@gmail.com",
     "password": "password",
     "phoneNumber": "+45 20 00 00 00",
-    "role": "Renter",
     "isVerified": true,
     "createdAt": "2025-01-01T09:00:00.000Z",
     "updatedAt": "2025-01-01T09:00:00.000Z"
+  },
+  {
+    "id": 2,
+    "firstName": "Maja",
+    "lastName": "Nielsen",
+    "email": "maja@example.com",
+    "phoneNumber": "+45 20 11 22 33",
+    "isVerified": true,
+    "createdAt": "2025-01-10T09:00:00.000Z",
+    "updatedAt": "2025-01-10T09:00:00.000Z",
+    "password": ""
+  },
+  {
+    "id": 3,
+    "firstName": "Lars",
+    "lastName": "Jensen",
+    "email": "lars@example.com",
+    "phoneNumber": "+45 20 44 55 66",
+    "isVerified": true,
+    "createdAt": "2025-01-18T09:00:00.000Z",
+    "updatedAt": "2025-01-18T09:00:00.000Z",
+    "password": ""
+  },
+  {
+    "id": 4,
+    "firstName": "Sofie",
+    "lastName": "Hansen",
+    "email": "sofie@example.com",
+    "phoneNumber": "+45 20 77 88 99",
+    "isVerified": true,
+    "createdAt": "2025-01-22T09:00:00.000Z",
+    "updatedAt": "2025-01-22T09:00:00.000Z",
+    "password": ""
   }
 ]

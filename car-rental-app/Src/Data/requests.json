@@ -1,17 +1,6 @@
 [
   {
-    "id": "request-001",
-    "renter": {
-      "id": "user-001",
-      "firstName": "Demo",
-      "lastName": "User",
-      "email": "user@gmail.com",
-      "phoneNumber": "+45 20 00 00 00",
-      "role": "Renter",
-      "isVerified": true,
-      "createdAt": "2025-01-01T09:00:00.000Z",
-      "updatedAt": "2025-01-01T09:00:00.000Z"
-    },
+    "id": 1,
     "budget": 750,
     "currency": "DKK",
     "period": {
@@ -20,6 +9,7 @@
     },
     "status": "Open",
     "createdAt": "2026-09-01T09:00:00.000Z",
-    "updatedAt": "2026-09-01T09:00:00.000Z"
+    "updatedAt": "2026-09-01T09:00:00.000Z",
+    "renterId": 1
   }
 ]

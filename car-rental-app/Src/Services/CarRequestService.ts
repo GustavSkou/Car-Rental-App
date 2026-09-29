@@ -1,16 +1,16 @@
 import requestsData from '../Data/requests.json';
-import { CarRequest, CarRequestStatus, Renter, TimePeriod, UserRole } from '../Models';
+import { CarRequest, CarRequestStatus, TimePeriod } from '../Models';
 
 type RawRequest = (typeof requestsData)[number];
 
 let requests = requestsData.map((request) => toModel(request));
 
 export class CarRequestService {
-  getCurrentRequests(renterId: string): CarRequest[] {
+  getCurrentRequests(renterId: number): CarRequest[] {
     return requests
       .filter(
         (request) =>
-          request.renter.id === renterId &&
+          request.renterId === renterId &&
           request.status !== CarRequestStatus.Cancelled &&
           request.status !== CarRequestStatus.Expired,
       )
@@ -23,7 +23,7 @@ export class CarRequestService {
     return toModel(requestToStore);
   }
 
-  deleteRequest(requestId: string): boolean {
+  deleteRequest(requestId: number): boolean {
     const requestExists = requests.some((request) => request.id === requestId);
     requests = requests.filter((request) => request.id !== requestId);
     return requestExists;
@@ -33,17 +33,7 @@ export class CarRequestService {
 function toModel(request: RawRequest | CarRequest): CarRequest {
   return new CarRequest(
     request.id,
-    new Renter(
-      request.renter.id,
-      request.renter.firstName,
-      request.renter.lastName,
-      request.renter.email,
-      request.renter.phoneNumber,
-      request.renter.role as UserRole,
-      request.renter.isVerified,
-      new Date(request.renter.createdAt),
-      new Date(request.renter.updatedAt),
-    ),
+    request.renterId,
     request.budget,
     request.currency,
     new TimePeriod(new Date(request.period.startDate), new Date(request.period.endDate)),

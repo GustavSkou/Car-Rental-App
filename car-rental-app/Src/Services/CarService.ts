@@ -1,5 +1,5 @@
 import carsData from '../Data/cars.json';
-import { Car, CarStatus, Location, Owner, UserRole } from '../Models';
+import { Car, CarStatus, Location } from '../Models';
 
 type RawCar = (typeof carsData)[number];
 
@@ -12,24 +12,14 @@ export class CarService {
     return this.getAllCars().filter((car) => car.status === CarStatus.Available);
   }
 
-  getCarById(id: string): Car | undefined {
+  getCarById(id: number): Car | undefined {
     return this.getAllCars().find((car) => car.id === id);
   }
 
   private toModel(car: RawCar): Car {
     return new Car(
       car.id,
-      new Owner(
-        car.owner.id,
-        car.owner.firstName,
-        car.owner.lastName,
-        car.owner.email,
-        car.owner.phoneNumber,
-        car.owner.role as UserRole,
-        car.owner.isVerified,
-        new Date(car.owner.createdAt),
-        new Date(car.owner.updatedAt),
-      ),
+      car.ownerId,
       car.brand,
       car.model,
       car.year,

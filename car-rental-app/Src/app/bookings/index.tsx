@@ -2,10 +2,11 @@ import { Redirect } from 'expo-router';
 import { Text } from 'react-native';
 import { RouteLink, ScreenShell } from '@/Components/ScreenShell';
 import { useAuth } from '@/Context/AuthContext';
-import { BookingService, UserService } from '@/Services';
+import { BookingService, CarService, UserService } from '@/Services';
 
 const bookingService = new BookingService();
 const userService = new UserService();
+const carService = new CarService();
 
 export default function BookingsScreen() {
   const { isLoggedIn, userEmail } = useAuth();
@@ -24,7 +25,7 @@ export default function BookingsScreen() {
           <RouteLink
             key={booking.id}
             href={`/bookings/${booking.id}`}
-            label={`${booking.car.brand} ${booking.car.model}`}
+            label={carService.getCarById(booking.carId)?.brand + ' ' + carService.getCarById(booking.carId)?.model}
             detail={`${booking.period.startDate.toLocaleDateString()} - ${booking.period.endDate.toLocaleDateString()} | ${booking.status}`}
           />
         ))

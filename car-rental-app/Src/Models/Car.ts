@@ -1,10 +1,9 @@
 import { CarStatus } from './CarStatus';
 import { Location } from './Location';
-import { Owner } from './Owner';
 
 export class Car {
-  id: string;
-  owner: Owner;
+  id: number;
+  ownerId: number;
   brand: string;
   model: string;
   year: number;
@@ -17,8 +16,8 @@ export class Car {
   updatedAt: Date;
 
   constructor(
-    id = '',
-    owner = new Owner(),
+    id = 0,
+    ownerId = 0,
     brand = '',
     model = '',
     year = new Date().getFullYear(),
@@ -31,7 +30,7 @@ export class Car {
     updatedAt = new Date(),
   ) {
     this.id = id;
-    this.owner = owner;
+    this.ownerId = ownerId;
     this.brand = brand;
     this.model = model;
     this.year = year;

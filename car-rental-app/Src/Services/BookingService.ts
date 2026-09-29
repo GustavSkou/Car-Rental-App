@@ -1,20 +1,15 @@
 import bookingsData from '../Data/bookings.json';
-import {
-  Booking,
-  BookingStatus,
-  Car,
-  CarStatus,
-  Location,
-  Owner,
-  PaymentStatus,
-  Renter,
-  Review,
-  TimePeriod,
-  User,
-  UserRole,
-} from '../Models';
+import { Booking, BookingStatus, Location, PaymentStatus, Review, TimePeriod } from '../Models';
 
 type RawBooking = (typeof bookingsData)[number];
+type RawReview = {
+  id: number;
+  userId: number;
+  text: string;
+  rating: number;
+  createdAt: string;
+  bookingId?: number;
+};
 
 let bookings = bookingsData.map((booking) => toModel(booking));
 
@@ -23,10 +18,8 @@ export class BookingService {
     return bookings.map((booking) => toModel(booking));
   }
 
-  getBookingsForUser(userId: string): Booking[] {
-    return bookings
-      .filter((booking) => booking.renter.id === userId)
-      .map((booking) => toModel(booking));
+  getBookingsForUser(userId: number): Booking[] {
+    return bookings.filter((booking) => booking.renterId === userId).map((booking) => toModel(booking));
   }
 
   createBooking(booking: Booking): Booking {
@@ -35,7 +28,7 @@ export class BookingService {
     return toModel(bookingToStore);
   }
 
-  deleteBooking(bookingId: string): boolean {
+  deleteBooking(bookingId: number): boolean {
     const bookingExists = bookings.some((booking) => booking.id === bookingId);
     bookings = bookings.filter((booking) => booking.id !== bookingId);
     return bookingExists;
@@ -43,43 +36,12 @@ export class BookingService {
 }
 
 function toModel(booking: RawBooking | Booking): Booking {
+  const review = 'review' in booking ? booking.review : undefined;
+
   return new Booking(
     booking.id,
-    new Car(
-      booking.car.id,
-      new Owner(
-        booking.car.owner.id,
-        booking.car.owner.firstName,
-        booking.car.owner.lastName,
-        booking.car.owner.email,
-        booking.car.owner.phoneNumber,
-        booking.car.owner.role as UserRole,
-        booking.car.owner.isVerified,
-        new Date(booking.car.owner.createdAt),
-        new Date(booking.car.owner.updatedAt),
-      ),
-      booking.car.brand,
-      booking.car.model,
-      booking.car.year,
-      booking.car.status as CarStatus,
-      booking.car.dailyPrice,
-      booking.car.currency,
-      toLocation(booking.car.location),
-      booking.car.imageUrls,
-      new Date(booking.car.createdAt),
-      new Date(booking.car.updatedAt),
-    ),
-    new Renter(
-      booking.renter.id,
-      booking.renter.firstName,
-      booking.renter.lastName,
-      booking.renter.email,
-      booking.renter.phoneNumber,
-      booking.renter.role as UserRole,
-      booking.renter.isVerified,
-      new Date(booking.renter.createdAt),
-      new Date(booking.renter.updatedAt),
-    ),
+    booking.carId,
+    booking.renterId,
     new TimePeriod(new Date(booking.period.startDate), new Date(booking.period.endDate)),
     toLocation(booking.pickUpLocation),
     toLocation(booking.handOverLocation),
@@ -87,7 +49,7 @@ function toModel(booking: RawBooking | Booking): Booking {
     booking.currency,
     booking.status as BookingStatus,
     booking.paymentStatus as PaymentStatus,
-    booking.review ? toReview(booking.review) : undefined,
+    review ? toReview(review) : undefined,
     new Date(booking.createdAt),
     new Date(booking.updatedAt),
   );
@@ -106,20 +68,10 @@ function toLocation(location: Location): Location {
   );
 }
 
-function toReview(review: Review): Review {
+function toReview(review: RawReview | Review): Review {
   return new Review(
     review.id,
-    new User(
-      review.user.id,
-      review.user.firstName,
-      review.user.lastName,
-      review.user.email,
-      review.user.phoneNumber,
-      review.user.role,
-      review.user.isVerified,
-      new Date(review.user.createdAt),
-      new Date(review.user.updatedAt),
-    ),
+    review.userId,
     review.text,
     review.rating,
     new Date(review.createdAt),
