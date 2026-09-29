@@ -1,17 +1,36 @@
 import { Redirect } from 'expo-router';
+import { Text } from 'react-native';
 import { RouteLink, ScreenShell } from '@/Components/ScreenShell';
 import { useAuth } from '@/Context/AuthContext';
+import { BookingService, UserService } from '@/Services';
+
+const bookingService = new BookingService();
+const userService = new UserService();
 
 export default function BookingsScreen() {
-  const { isLoggedIn } = useAuth();
+  const { isLoggedIn, userEmail } = useAuth();
 
   if (!isLoggedIn) {
     return <Redirect href="/auth/login" />;
   }
 
+  const user = userEmail ? userService.getUserByEmail(userEmail) : undefined;
+  const bookings = user ? bookingService.getBookingsForUser(user.id) : [];
+
   return (
     <ScreenShell backHref="/" eyebrow="Rentals" title="My bookings" description="Keep track of upcoming and completed car rentals.">
-      <RouteLink href="/bookings/booking-001" label="Volvo XC40" detail="Tomorrow, 10:00 - 18:00 | Booking details" />
+      {bookings.length > 0 ? (
+        bookings.map((booking) => (
+          <RouteLink
+            key={booking.id}
+            href={`/bookings/${booking.id}`}
+            label={`${booking.car.brand} ${booking.car.model}`}
+            detail={`${booking.period.startDate.toLocaleDateString()} - ${booking.period.endDate.toLocaleDateString()} | ${booking.status}`}
+          />
+        ))
+      ) : (
+        <Text>No bookings yet.</Text>
+      )}
       <RouteLink href="/" label="Browse available cars" />
     </ScreenShell>
   );
