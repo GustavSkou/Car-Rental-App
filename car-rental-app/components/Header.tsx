@@ -5,7 +5,7 @@ import { StatusBar } from 'expo-status-bar';
 import { Feather } from '@expo/vector-icons';
 
 
-function Header() {
+export default function Header() {
     return (
       <View style={styles.header}>
         <Text style={styles.headerTitle}> Browse Cars</Text>
@@ -30,6 +30,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: '#ccc',
+    marginBottom: 16,
+    marginTop: 35,
   },
   headerTitle: { fontSize: 20, fontWeight: '700', color: '#111' },
   headerIcons: {
