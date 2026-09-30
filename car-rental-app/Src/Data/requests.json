@@ -1,0 +1,15 @@
+[
+  {
+    "id": 1,
+    "budget": 750,
+    "currency": "DKK",
+    "period": {
+      "startDate": "2026-10-10T09:00:00.000Z",
+      "endDate": "2026-10-12T09:00:00.000Z"
+    },
+    "status": "Open",
+    "createdAt": "2026-09-01T09:00:00.000Z",
+    "updatedAt": "2026-09-01T09:00:00.000Z",
+    "renterId": 1
+  }
+]

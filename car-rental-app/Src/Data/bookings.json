@@ -1,0 +1,107 @@
+[
+  {
+    "id": 1,
+    "period": {
+      "startDate": "2026-10-10T09:00:00.000Z",
+      "endDate": "2026-10-12T09:00:00.000Z"
+    },
+    "pickUpLocation": {
+      "country": "Denmark",
+      "city": "Odense",
+      "postalCode": "5000",
+      "streetName": "Vestergade",
+      "streetNumber": "12",
+      "latitude": 55.4038,
+      "longitude": 10.4024,
+      "pickupInstructions": "Meet by the main entrance."
+    },
+    "handOverLocation": {
+      "country": "Denmark",
+      "city": "Odense",
+      "postalCode": "5000",
+      "streetName": "Vestergade",
+      "streetNumber": "12",
+      "latitude": 55.4038,
+      "longitude": 10.4024,
+      "pickupInstructions": "Return the car to the marked rental spaces."
+    },
+    "price": 1050,
+    "currency": "DKK",
+    "status": "Confirmed",
+    "paymentStatus": "Paid",
+    "createdAt": "2026-09-01T09:00:00.000Z",
+    "updatedAt": "2026-09-01T09:00:00.000Z",
+    "carId": 1,
+    "renterId": 1
+  },
+  {
+    "id": 2,
+    "period": {
+      "startDate": "2026-11-05T10:00:00.000Z",
+      "endDate": "2026-11-08T10:00:00.000Z"
+    },
+    "pickUpLocation": {
+      "country": "Denmark",
+      "city": "Aarhus",
+      "postalCode": "8000",
+      "streetName": "N\u00f8rrebrogade",
+      "streetNumber": "41",
+      "latitude": 56.1629,
+      "longitude": 10.2039,
+      "pickupInstructions": "The key is in the lockbox by the gate."
+    },
+    "handOverLocation": {
+      "country": "Denmark",
+      "city": "Aarhus",
+      "postalCode": "8000",
+      "streetName": "N\u00f8rrebrogade",
+      "streetNumber": "41",
+      "latitude": 56.1629,
+      "longitude": 10.2039,
+      "pickupInstructions": "Return the car to the lockbox parking area."
+    },
+    "price": 1230,
+    "currency": "DKK",
+    "status": "Pending",
+    "paymentStatus": "Pending",
+    "createdAt": "2026-09-10T09:00:00.000Z",
+    "updatedAt": "2026-09-10T09:00:00.000Z",
+    "carId": 2,
+    "renterId": 1
+  },
+  {
+    "id": 3,
+    "period": {
+      "startDate": "2026-12-18T08:00:00.000Z",
+      "endDate": "2026-12-20T18:00:00.000Z"
+    },
+    "pickUpLocation": {
+      "country": "Denmark",
+      "city": "Copenhagen",
+      "postalCode": "2100",
+      "streetName": "\u00d8sterbrogade",
+      "streetNumber": "88",
+      "latitude": 55.7001,
+      "longitude": 12.5851,
+      "pickupInstructions": "The car is parked on level two."
+    },
+    "handOverLocation": {
+      "country": "Denmark",
+      "city": "Copenhagen",
+      "postalCode": "2100",
+      "streetName": "\u00d8sterbrogade",
+      "streetNumber": "88",
+      "latitude": 55.7001,
+      "longitude": 12.5851,
+      "pickupInstructions": "Leave the keys in the secure return box."
+    },
+    "price": 730,
+    "currency": "DKK",
+    "status": "Completed",
+    "paymentStatus": "Paid",
+    "createdAt": "2026-08-15T09:00:00.000Z",
+    "updatedAt": "2026-08-20T18:00:00.000Z",
+    "carId": 3,
+    "renterId": 1
+  }
+]

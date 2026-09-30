@@ -1,0 +1,71 @@
+[
+  {
+    "id": 1,
+    "brand": "Volvo",
+    "model": "XC40",
+    "year": 2023,
+    "status": "Available",
+    "dailyPrice": 525,
+    "currency": "DKK",
+    "location": {
+      "country": "Denmark",
+      "city": "Odense",
+      "postalCode": "5000",
+      "streetName": "Vestergade",
+      "streetNumber": "12",
+      "latitude": 55.4038,
+      "longitude": 10.4024,
+      "pickupInstructions": "Meet by the main entrance."
+    },
+    "imageUrls": [],
+    "createdAt": "2025-02-12T10:00:00.000Z",
+    "updatedAt": "2025-02-12T10:00:00.000Z",
+    "ownerId": 2
+  },
+  {
+    "id": 2,
+    "brand": "Toyota",
+    "model": "Corolla",
+    "year": 2022,
+    "status": "Available",
+    "dailyPrice": 410,
+    "currency": "DKK",
+    "location": {
+      "country": "Denmark",
+      "city": "Aarhus",
+      "postalCode": "8000",
+      "streetName": "N\u00f8rrebrogade",
+      "streetNumber": "41",
+      "latitude": 56.1629,
+      "longitude": 10.2039,
+      "pickupInstructions": "The key is in the lockbox by the gate."
+    },
+    "imageUrls": [],
+    "createdAt": "2025-02-16T10:00:00.000Z",
+    "updatedAt": "2025-02-16T10:00:00.000Z",
+    "ownerId": 3
+  },
+  {
+    "id": 3,
+    "brand": "Ford",
+    "model": "Focus",
+    "year": 2021,
+    "status": "Available",
+    "dailyPrice": 365,
+    "currency": "DKK",
+    "location": {
+      "country": "Denmark",
+      "city": "Copenhagen",
+      "postalCode": "2100",
+      "streetName": "\u00d8sterbrogade",
+      "streetNumber": "88",
+      "latitude": 55.7001,
+      "longitude": 12.5851,
+      "pickupInstructions": "The car is parked on level two."
+    },
+    "imageUrls": [],
+    "createdAt": "2025-02-20T10:00:00.000Z",
+    "updatedAt": "2025-02-20T10:00:00.000Z",
+    "ownerId": 4
+  }
+]
