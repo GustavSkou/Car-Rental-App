@@ -7,12 +7,13 @@ import {
   ScrollView,
   StyleSheet,
   Text,
-  TextInput,
   View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Feather } from '@expo/vector-icons';
+import { CarFilterButtons } from '@/Components/CarFilterButtons';
 import { NavigationBar } from '@/Components/NavigationBar';
+import { SearchBar } from '@/Components/SearchBar';
 import { CarService } from '@/Services/CarService';
 
 const BRANDS = ['All', 'Volvo', 'Toyota', 'Ford'];
@@ -64,34 +65,20 @@ export default function CarsScreen() {
           <Text style={styles.resultCount}>{visibleCars.length} cars</Text>
         </View>
 
-        <TextInput
+        <SearchBar
           autoCapitalize="words"
           onChangeText={setCity}
           placeholder="Search by city"
           placeholderTextColor="#777"
-          style={styles.searchInput}
           value={city}
         />
 
         <View style={styles.controlRow}>
-          <ScrollView
-            contentContainerStyle={styles.brandFilters}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-          >
-            {BRANDS.map((brand) => (
-              <Pressable
-                accessibilityRole="button"
-                key={brand}
-                onPress={() => setSelectedBrand(brand)}
-                style={[styles.filterButton, selectedBrand === brand && styles.filterButtonSelected]}
-              >
-                <Text style={[styles.filterText, selectedBrand === brand && styles.filterTextSelected]}>
-                  {brand}
-                </Text>
-              </Pressable>
-            ))}
-          </ScrollView>
+          <CarFilterButtons
+            onSelect={setSelectedBrand}
+            options={BRANDS}
+            selectedOption={selectedBrand}
+          />
           <Pressable
             accessibilityRole="button"
             onPress={() => setSortAscending((current) => !current)}
@@ -167,20 +154,7 @@ const styles = StyleSheet.create({
   },
   title: { color: '#111', fontSize: 28, fontWeight: '600', marginTop: 3 },
   resultCount: { color: '#666', fontSize: 14, marginBottom: 4 },
-  searchInput: {
-    borderColor: '#222',
-    borderWidth: 1,
-    color: '#111',
-    fontSize: 16,
-    height: 46,
-    paddingHorizontal: 14,
-  },
   controlRow: { alignItems: 'center', flexDirection: 'row', marginTop: 12 },
-  brandFilters: { alignItems: 'center', gap: 8, paddingRight: 8 },
-  filterButton: { borderColor: '#1a1a1a', borderWidth: 1, paddingHorizontal: 12, paddingVertical: 8 },
-  filterButtonSelected: { backgroundColor: '#111' },
-  filterText: { color: '#222', fontSize: 14 },
-  filterTextSelected: { color: '#fff', fontWeight: '700' },
   sortButton: { borderColor: '#1a1a1a', borderWidth: 1, paddingHorizontal: 10, paddingVertical: 8 },
   sortText: { color: '#222', fontSize: 13 },
   list: { gap: 12, marginTop: 18 },
