@@ -1,57 +1,62 @@
-import { useState } from 'react';
-import { Link } from 'expo-router';
+import { router } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
+import { useMemo, useState } from 'react';
 import {
+  Image,
   Pressable,
   ScrollView,
   StyleSheet,
   Text,
-  TextInput,
   View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { Feather } from '@expo/vector-icons';
+import { CarFilterButtons } from '@/Components/CarFilterButtons';
 import { NavigationBar } from '@/Components/NavigationBar';
+import { SearchBar } from '@/Components/SearchBar';
 import { CarService } from '@/Services/CarService';
 
 const BRANDS = ['All', 'Volvo', 'Toyota', 'Ford'];
-const CAR_ACCENTS: Record<string, string> = {
-  Volvo: '#dce8e6',
-  Toyota: '#e8e1d8',
-  Ford: '#e1e5ed',
-};
 const carService = new CarService();
 
 export default function CarsScreen() {
   const [city, setCity] = useState('');
   const [selectedBrand, setSelectedBrand] = useState('All');
   const [sortAscending, setSortAscending] = useState(true);
-  const [availableCars] = useState(() => carService.getAvailableCars());
+  const availableCars = useMemo(() => carService.getAvailableCars(), []);
 
-  const visibleCars = availableCars
-    .filter((car) => {
-      const matchesCity = car.location.city.toLowerCase().includes(city.trim().toLowerCase());
-      const matchesBrand = selectedBrand === 'All' || car.brand === selectedBrand;
-      return matchesCity && matchesBrand;
-    })
-    .sort((firstCar, secondCar) =>
-      sortAscending ? firstCar.dailyPrice - secondCar.dailyPrice : secondCar.dailyPrice - firstCar.dailyPrice,
-    );
+  const visibleCars = useMemo(
+    () =>
+      availableCars
+        .filter((car) => {
+          const matchesCity = car.location.city.toLowerCase().includes(city.trim().toLowerCase());
+          const matchesBrand = selectedBrand === 'All' || car.brand === selectedBrand;
+          return matchesCity && matchesBrand;
+        })
+        .sort((firstCar, secondCar) =>
+          sortAscending
+            ? firstCar.dailyPrice - secondCar.dailyPrice
+            : secondCar.dailyPrice - firstCar.dailyPrice,
+        ),
+    [availableCars, city, selectedBrand, sortAscending],
+  );
 
   return (
-    <SafeAreaView style={styles.safeArea}>
+    <SafeAreaView style={styles.safe} edges={['top']}>
       <StatusBar style="dark" />
-      <ScrollView contentContainerStyle={styles.content}>
-        <View style={styles.topBar}>
-          <View style={styles.wordmark}>
-            <View style={styles.wordmarkLine} />
-            <Text style={styles.wordmarkText}>DRIVE</Text>
-          </View>
-          <View style={styles.profileIcon}>
-            <View style={styles.profileHead} />
-            <View style={styles.profileBody} />
-          </View>
+      <View style={styles.header}>
+        <Text style={styles.headerTitle}>Browse Cars</Text>
+        <View style={styles.headerIcons}>
+          <Pressable accessibilityLabel="Notifications" hitSlop={8}>
+            <Feather name="bell" size={22} color="#111" />
+            <View style={styles.badgeDot} />
+          </Pressable>
+          <Pressable accessibilityLabel="Profile" hitSlop={8}>
+            <Feather name="user" size={22} color="#111" />
+          </Pressable>
         </View>
-
+      </View>
+      <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
         <View style={styles.headingRow}>
           <View>
             <Text style={styles.eyebrow}>Browse</Text>
@@ -60,28 +65,25 @@ export default function CarsScreen() {
           <Text style={styles.resultCount}>{visibleCars.length} cars</Text>
         </View>
 
-        <TextInput
+        <SearchBar
           autoCapitalize="words"
           onChangeText={setCity}
-          placeholder="City"
-          placeholderTextColor="#777777"
-          style={styles.searchInput}
+          placeholder="Search by city"
+          placeholderTextColor="#777"
           value={city}
         />
 
         <View style={styles.controlRow}>
-          <ScrollView contentContainerStyle={styles.brandFilters} horizontal showsHorizontalScrollIndicator={false}>
-            {BRANDS.map((brand) => (
-              <Pressable
-                key={brand}
-                onPress={() => setSelectedBrand(brand)}
-                style={[styles.filterButton, selectedBrand === brand && styles.filterButtonSelected]}
-              >
-                <Text style={[styles.filterText, selectedBrand === brand && styles.filterTextSelected]}>{brand}</Text>
-              </Pressable>
-            ))}
-          </ScrollView>
-          <Pressable onPress={() => setSortAscending((current) => !current)} style={styles.sortButton}>
+          <CarFilterButtons
+            onSelect={setSelectedBrand}
+            options={BRANDS}
+            selectedOption={selectedBrand}
+          />
+          <Pressable
+            accessibilityRole="button"
+            onPress={() => setSortAscending((current) => !current)}
+            style={styles.sortButton}
+          >
             <Text style={styles.sortText}>{sortAscending ? 'Price +' : 'Price -'}</Text>
           </Pressable>
         </View>
@@ -89,24 +91,25 @@ export default function CarsScreen() {
         <View style={styles.list}>
           {visibleCars.length ? (
             visibleCars.map((car) => (
-              <Link key={car.id} href={`/cars/${car.id}` as never} asChild>
-                <Pressable style={({ pressed }) => [styles.carCard, pressed && styles.carCardPressed]}>
-                  <View style={[styles.carImage, { backgroundColor: CAR_ACCENTS[car.brand] ?? '#e5e5e5' }]}>
-                    <View style={styles.carImageFrame}>
-                      <Text style={styles.carImageText}>CAR</Text>
-                    </View>
+              <Pressable
+                key={car.id}
+                onPress={() => router.push(`/cars/${car.id}` as never)}
+                style={({ pressed }) => [styles.carCard, pressed && styles.pressed]}
+              >
+                {car.imageUrls[0] ? (
+                  <Image source={{ uri: car.imageUrls[0] }} style={styles.carImage} />
+                ) : (
+                  <View style={[styles.carImage, styles.imagePlaceholder]}>
+                    <Feather name="image" size={22} color="#888" />
                   </View>
-                  <View style={styles.carInfo}>
-                    <View style={styles.carTitleRow}>
-                      <Text style={styles.carName}>{car.brand} {car.model}</Text>
-                      <Text style={styles.chevron}>›</Text>
-                    </View>
-                    <Text style={styles.carMeta}>{car.year}  |  Available</Text>
-                    <Text style={styles.carLocation}>{car.location.city}</Text>
-                    <Text style={styles.carPrice}>{car.dailyPrice} {car.currency} <Text style={styles.priceUnit}>/ day</Text></Text>
-                  </View>
-                </Pressable>
-              </Link>
+                )}
+                <View style={styles.carBody}>
+                  <Text style={styles.carName}>{car.brand} {car.model}</Text>
+                  <Text style={styles.carMeta}>{car.year} · {car.location.city}</Text>
+                  <Text style={styles.carPrice}>{car.dailyPrice} {car.currency} / day</Text>
+                </View>
+                <Feather name="chevron-right" size={20} color="#111" />
+              </Pressable>
             ))
           ) : (
             <View style={styles.emptyState}>
@@ -116,84 +119,54 @@ export default function CarsScreen() {
           )}
         </View>
       </ScrollView>
-
       <NavigationBar />
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  safeArea: { backgroundColor: '#ffffff', flex: 1 },
-  content: { paddingBottom: 28, paddingHorizontal: 24, paddingTop: 14 },
-  topBar: {
+  safe: { backgroundColor: '#fff', flex: 1 },
+  content: { paddingBottom: 24, paddingHorizontal: 18 },
+  header: {
     alignItems: 'center',
-    borderColor: '#222222',
-    borderWidth: 1.5,
+    borderBottomColor: '#ccc',
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    height: 56,
+    justifyContent: 'center',
+    marginBottom: 16,
+    marginTop: 35,
+  },
+  headerTitle: { color: '#111', fontSize: 20, fontWeight: '700' },
+  headerIcons: { flexDirection: 'row', gap: 20, position: 'absolute', right: 20 },
+  badgeDot: { backgroundColor: '#111', borderRadius: 4, height: 7, position: 'absolute', right: -2, top: -2, width: 7 },
+  headingRow: {
+    alignItems: 'flex-end',
     flexDirection: 'row',
-    height: 58,
     justifyContent: 'space-between',
-    paddingHorizontal: 16,
+    marginBottom: 16,
   },
-  wordmark: { alignItems: 'center', flexDirection: 'row', gap: 8 },
-  wordmarkLine: { backgroundColor: '#222222', height: 4, width: 42 },
-  wordmarkText: { color: '#222222', fontSize: 14, fontWeight: '800', letterSpacing: 1.8 },
-  profileIcon: { height: 36, position: 'relative', width: 36 },
-  profileHead: {
-    borderColor: '#263140',
-    borderRadius: 12,
-    borderWidth: 2,
-    height: 21,
-    left: 7,
-    position: 'absolute',
-    top: 0,
-    width: 21,
+  eyebrow: {
+    color: '#426b63',
+    fontSize: 13,
+    fontWeight: '800',
+    letterSpacing: 1.2,
+    textTransform: 'uppercase',
   },
-  profileBody: {
-    borderColor: '#263140',
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-    borderWidth: 2,
-    bottom: 0,
-    height: 17,
-    position: 'absolute',
-    width: 36,
-  },
-  headingRow: { alignItems: 'flex-end', flexDirection: 'row', justifyContent: 'space-between', marginTop: 26 },
-  eyebrow: { color: '#426b63', fontSize: 13, fontWeight: '800', letterSpacing: 1.2, textTransform: 'uppercase' },
-  title: { color: '#111111', fontSize: 28, fontWeight: '600', marginTop: 3 },
-  resultCount: { color: '#666666', fontSize: 14, marginBottom: 4 },
-  searchInput: {
-    borderColor: '#222222',
-    borderWidth: 1.5,
-    color: '#111111',
-    fontSize: 17,
-    height: 48,
-    marginTop: 20,
-    paddingHorizontal: 14,
-  },
+  title: { color: '#111', fontSize: 28, fontWeight: '600', marginTop: 3 },
+  resultCount: { color: '#666', fontSize: 14, marginBottom: 4 },
   controlRow: { alignItems: 'center', flexDirection: 'row', marginTop: 12 },
-  brandFilters: { alignItems: 'center', gap: 8, paddingRight: 10 },
-  filterButton: { borderColor: '#222222', borderWidth: 1, paddingHorizontal: 13, paddingVertical: 8 },
-  filterButtonSelected: { backgroundColor: '#3157c8' },
-  filterText: { color: '#222222', fontSize: 14 },
-  filterTextSelected: { color: '#ffffff', fontWeight: '700' },
-  sortButton: { borderColor: '#222222', borderWidth: 1, paddingHorizontal: 10, paddingVertical: 8 },
-  sortText: { color: '#222222', fontSize: 13 },
+  sortButton: { borderColor: '#1a1a1a', borderWidth: 1, paddingHorizontal: 10, paddingVertical: 8 },
+  sortText: { color: '#222', fontSize: 13 },
   list: { gap: 12, marginTop: 18 },
-  carCard: { borderColor: '#222222', borderWidth: 1.5, flexDirection: 'row', minHeight: 136, padding: 10 },
-  carCardPressed: { backgroundColor: '#f1f1f1' },
-  carImage: { alignItems: 'center', justifyContent: 'center', width: 118 },
-  carImageFrame: { alignItems: 'center', borderColor: '#53606a', borderWidth: 1, height: 66, justifyContent: 'center', width: 88 },
-  carImageText: { color: '#53606a', fontSize: 13, fontWeight: '700', letterSpacing: 1.5 },
-  carInfo: { flex: 1, paddingLeft: 14, paddingVertical: 2 },
-  carTitleRow: { alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between' },
-  carName: { color: '#111111', flex: 1, fontSize: 18, fontWeight: '700' },
-  chevron: { color: '#3157c8', fontSize: 28, lineHeight: 24, paddingLeft: 4 },
-  carMeta: { color: '#555555', fontSize: 13, marginTop: 7 },
-  carLocation: { color: '#555555', fontSize: 13, marginTop: 3 },
-  carPrice: { color: '#111111', fontSize: 16, fontWeight: '700', marginTop: 10 },
-  priceUnit: { color: '#666666', fontSize: 12, fontWeight: '400' },
-  emptyState: { borderColor: '#222222', borderWidth: 1, padding: 24 },
-  emptyTitle: { color: '#111111', fontSize: 18, fontWeight: '700' },
-  emptyText: { color: '#666666', fontSize: 14, marginTop: 6 },
+  carCard: { alignItems: 'center', borderColor: '#1a1a1a', borderRadius: 10, borderWidth: 1, flexDirection: 'row', gap: 12, marginHorizontal: 0, padding: 12 },
+  carImage: { borderRadius: 4, height: 96, width: 128 },
+  imagePlaceholder: { alignItems: 'center', backgroundColor: '#ddd', borderColor: '#999', borderWidth: 1, justifyContent: 'center' },
+  carBody: { flex: 1 },
+  carName: { color: '#111', fontSize: 18, fontWeight: '700' },
+  carMeta: { color: '#6b6b6b', fontSize: 14, marginTop: 6 },
+  carPrice: { color: '#111', fontSize: 18, fontWeight: '700', marginTop: 8 },
+  pressed: { opacity: 0.6 },
+  emptyState: { borderColor: '#222', borderWidth: 1, padding: 24 },
+  emptyTitle: { color: '#111', fontSize: 18, fontWeight: '700' },
+  emptyText: { color: '#666', fontSize: 14, marginTop: 6 },
 });
