@@ -3,9 +3,11 @@ import { Car, CarStatus, Location } from '../Models';
 
 type RawCar = (typeof carsData)[number];
 
+let cars = carsData.map((car) => toModel(car));
+
 export class CarService {
   getAllCars(): Car[] {
-    return carsData.map((car) => this.toModel(car));
+    return cars.map((car) => toModel(car));
   }
 
   getAvailableCars(): Car[] {
@@ -13,32 +15,68 @@ export class CarService {
   }
 
   getCarById(id: number): Car | undefined {
-    return this.getAllCars().find((car) => car.id === id);
+    const car = cars.find((candidate) => candidate.id === id);
+    return car ? toModel(car) : undefined;
   }
 
-  private toModel(car: RawCar): Car {
-    return new Car(
-      car.id,
+  getCarsForOwner(ownerId: number): Car[] {
+    return cars.filter((car) => car.ownerId === ownerId).map((car) => toModel(car));
+  }
+
+  createCar(car: Car): Car {
+    const now = new Date();
+    const storedCar = new Car(
+      car.id || Date.now(),
       car.ownerId,
-      car.brand,
-      car.model,
+      car.brand.trim(),
+      car.model.trim(),
       car.year,
-      car.status as CarStatus,
+      car.status,
       car.dailyPrice,
       car.currency,
-      new Location(
-        car.location.country,
-        car.location.city,
-        car.location.postalCode,
-        car.location.streetName,
-        car.location.streetNumber,
-        car.location.latitude,
-        car.location.longitude,
-        car.location.pickupInstructions,
-      ),
+      car.location,
       car.imageUrls,
-      new Date(car.createdAt),
-      new Date(car.updatedAt),
+      car.createdAt,
+      now,
     );
+
+    cars = [...cars, storedCar];
+    return toModel(storedCar);
   }
+
+  deleteCar(id: number, ownerId: number): boolean {
+    const car = cars.find((candidate) => candidate.id === id && candidate.ownerId === ownerId);
+    if (!car) {
+      return false;
+    }
+
+    cars = cars.filter((candidate) => candidate.id !== id);
+    return true;
+  }
+}
+
+function toModel(car: RawCar | Car): Car {
+  return new Car(
+    car.id,
+    car.ownerId,
+    car.brand,
+    car.model,
+    car.year,
+    car.status as CarStatus,
+    car.dailyPrice,
+    car.currency,
+    new Location(
+      car.location.country,
+      car.location.city,
+      car.location.postalCode,
+      car.location.streetName,
+      car.location.streetNumber,
+      car.location.latitude,
+      car.location.longitude,
+      car.location.pickupInstructions,
+    ),
+    [...car.imageUrls],
+    new Date(car.createdAt),
+    new Date(car.updatedAt),
+  );
 }

@@ -18,6 +18,11 @@ export class BookingService {
     return bookings.map((booking) => toModel(booking));
   }
 
+  getBookingById(id: number): Booking | undefined {
+    const booking = bookings.find((candidate) => candidate.id === id);
+    return booking ? toModel(booking) : undefined;
+  }
+
   getBookingsForUser(userId: number): Booking[] {
     return bookings.filter((booking) => booking.renterId === userId).map((booking) => toModel(booking));
   }
@@ -28,10 +33,28 @@ export class BookingService {
     return toModel(bookingToStore);
   }
 
+  cancelBooking(bookingId: number): boolean {
+    const booking = bookings.find((candidate) => candidate.id === bookingId);
+    if (!booking || booking.status === BookingStatus.Completed || booking.status === BookingStatus.Cancelled) {
+      return false;
+    }
+
+    booking.status = BookingStatus.Cancelled;
+    booking.updatedAt = new Date();
+    return true;
+  }
+
   deleteBooking(bookingId: number): boolean {
-    const bookingExists = bookings.some((booking) => booking.id === bookingId);
+    const bookingExists = bookings.some(
+      (booking) => booking.id === bookingId && booking.status === BookingStatus.Cancelled,
+    );
+
+    if (!bookingExists) {
+      return false;
+    }
+
     bookings = bookings.filter((booking) => booking.id !== bookingId);
-    return bookingExists;
+    return true;
   }
 }
 
