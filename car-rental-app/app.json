@@ -2,6 +2,7 @@
   "expo": {
     "name": "car-rental-app",
     "slug": "car-rental-app",
+    "scheme": "carrental",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
