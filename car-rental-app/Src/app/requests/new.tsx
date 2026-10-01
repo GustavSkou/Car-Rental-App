@@ -4,10 +4,7 @@ import { Pressable, StyleSheet, Text, TextInput } from 'react-native';
 import { ScreenShell } from '@/Components/ScreenShell';
 import { useAuth } from '@/Context/AuthContext';
 import { CarRequest, TimePeriod } from '@/Models';
-import { CarRequestService, UserService } from '@/Services';
-
-const carRequestService = new CarRequestService();
-const userService = new UserService();
+import { carRequestService, userService } from '@/Services';
 
 export default function NewRequestScreen() {
   const { isLoggedIn, userEmail } = useAuth();

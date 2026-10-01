@@ -3,9 +3,7 @@ import { router } from 'expo-router';
 import { Pressable, StyleSheet, Text, TextInput } from 'react-native';
 import { ScreenShell } from '@/Components/ScreenShell';
 import { User } from '@/Models';
-import { UserService } from '@/Services';
-
-const userService = new UserService();
+import { userService } from '@/Services';
 
 export default function RegisterScreen() {
   const [firstName, setFirstName] = useState('');

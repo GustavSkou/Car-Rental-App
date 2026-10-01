@@ -14,11 +14,9 @@ import { Feather } from '@expo/vector-icons';
 import { CarFilterButtons } from '@/Components/CarFilterButtons';
 import { NavigationBar } from '@/Components/NavigationBar';
 import { SearchBar } from '@/Components/SearchBar';
-import { CarService } from '@/Services/CarService';
+import { carService } from '@/Services';
 
 const BRANDS = ['All', 'Volvo', 'Toyota', 'Ford'];
-const carService = new CarService();
-
 export default function CarsScreen() {
   const [city, setCity] = useState('');
   const [selectedBrand, setSelectedBrand] = useState('All');

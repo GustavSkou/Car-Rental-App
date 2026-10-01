@@ -1,11 +1,12 @@
 import carsData from '../Data/cars.json';
 import { Car, CarStatus, Location } from '../Models';
+import { CarServiceInterface } from './CarServiceInterface';
 
 type RawCar = (typeof carsData)[number];
 
 let cars = carsData.map((car) => toModel(car));
 
-export class CarService {
+export class CarService implements CarServiceInterface {
   getAllCars(): Car[] {
     return cars.map((car) => toModel(car));
   }

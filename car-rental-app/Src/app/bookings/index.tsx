@@ -2,11 +2,7 @@ import { Redirect } from 'expo-router';
 import { Text } from 'react-native';
 import { RouteLink, ScreenShell } from '@/Components/ScreenShell';
 import { useAuth } from '@/Context/AuthContext';
-import { BookingService, CarService, UserService } from '@/Services';
-
-const bookingService = new BookingService();
-const userService = new UserService();
-const carService = new CarService();
+import { bookingService, carService, userService } from '@/Services';
 
 export default function BookingsScreen() {
   const { isLoggedIn, userEmail } = useAuth();

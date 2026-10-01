@@ -1,11 +1,12 @@
 import requestsData from '../Data/requests.json';
 import { CarRequest, CarRequestStatus, TimePeriod } from '../Models';
+import { CarRequestServiceInterface } from './CarRequestServiceInterface';
 
 type RawRequest = (typeof requestsData)[number];
 
 let requests = requestsData.map((request) => toModel(request));
 
-export class CarRequestService {
+export class CarRequestService implements CarRequestServiceInterface {
   getCurrentRequests(renterId: number): CarRequest[] {
     return requests
       .filter(

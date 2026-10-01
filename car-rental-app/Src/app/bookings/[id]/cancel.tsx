@@ -1,10 +1,7 @@
 import { Redirect, router, useLocalSearchParams } from 'expo-router';
 import { ActionButton, ScreenShell } from '@/Components/ScreenShell';
 import { useAuth } from '@/Context/AuthContext';
-import { BookingService, UserService } from '@/Services';
-
-const bookingService = new BookingService();
-const userService = new UserService();
+import { bookingService, userService } from '@/Services';
 
 export default function CancelBookingScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();

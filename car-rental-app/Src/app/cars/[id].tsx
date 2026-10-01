@@ -1,8 +1,6 @@
 import { useLocalSearchParams } from 'expo-router';
 import { ActionButton, RouteLink, ScreenShell } from '@/Components/ScreenShell';
-import { CarService } from '@/Services/CarService';
-
-const carService = new CarService();
+import { carService } from '@/Services';
 
 export default function CarDetailsScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();

@@ -3,11 +3,7 @@ import { Text } from 'react-native';
 import { ActionButton, RouteLink, ScreenShell } from '@/Components/ScreenShell';
 import { useAuth } from '@/Context/AuthContext';
 import { BookingStatus } from '@/Models';
-import { BookingService, CarService, UserService } from '@/Services';
-
-const bookingService = new BookingService();
-const carService = new CarService();
-const userService = new UserService();
+import { bookingService, carService, userService } from '@/Services';
 
 export default function BookingDetailsScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();

@@ -1,5 +1,5 @@
 import { createContext, PropsWithChildren, useContext, useState } from 'react';
-import { UserService } from '@/Services/UserService';
+import { userService } from '@/Services';
 
 type AuthContextValue = {
   isLoggedIn: boolean;
@@ -10,8 +10,6 @@ type AuthContextValue = {
 };
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
-const userService = new UserService();
-
 export function AuthProvider({ children }: PropsWithChildren) {
   const [userEmail, setUserEmail] = useState<string | null>(null);
 

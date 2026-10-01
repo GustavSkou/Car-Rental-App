@@ -3,9 +3,7 @@ import { useState } from 'react';
 import { Redirect, router, useLocalSearchParams } from 'expo-router';
 import { ScreenShell } from '@/Components/ScreenShell';
 import { useAuth } from '@/Context/AuthContext';
-import { CarService } from '@/Services';
-
-const carService = new CarService();
+import { carService } from '@/Services';
 
 export default function ListingDetailsScreen() {
   const { isLoggedIn, userId } = useAuth();

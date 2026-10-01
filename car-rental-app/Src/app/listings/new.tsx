@@ -4,9 +4,7 @@ import { Pressable, StyleSheet, Text, TextInput } from 'react-native';
 import { ScreenShell } from '@/Components/ScreenShell';
 import { useAuth } from '@/Context/AuthContext';
 import { Car, CarStatus, Location } from '@/Models';
-import { CarService } from '@/Services';
-
-const carService = new CarService();
+import { carService } from '@/Services';
 
 export default function NewListingScreen() {
   const { isLoggedIn, userId } = useAuth();

@@ -1,5 +1,6 @@
 import bookingsData from '../Data/bookings.json';
 import { Booking, BookingStatus, Location, PaymentStatus, Review, TimePeriod } from '../Models';
+import { BookingServiceInterface } from './BookingServiceInterface';
 
 type RawBooking = (typeof bookingsData)[number];
 type RawReview = {
@@ -13,7 +14,7 @@ type RawReview = {
 
 let bookings = bookingsData.map((booking) => toModel(booking));
 
-export class BookingService {
+export class BookingService implements BookingServiceInterface {
   getAllBookings(): Booking[] {
     return bookings.map((booking) => toModel(booking));
   }

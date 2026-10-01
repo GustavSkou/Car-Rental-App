@@ -1,9 +1,10 @@
 import usersData from '../Data/users.json';
 import { User } from '../Models';
+import { UserServiceInterface } from './UserServiceInterface';
 
 type RawUser = (typeof usersData)[number];
 
-export class UserService {
+export class UserService implements UserServiceInterface {
 
   getUserByEmail(email: string): User | undefined {
     const user = usersData.find((candidate) => candidate.email.toLowerCase() === email.trim().toLowerCase());
@@ -15,7 +16,7 @@ export class UserService {
     return user ? this.toModel(user) : undefined;
   }
 
-  createUser(user: User) {
+  createUser(user: User): User {
     if (this.getUserByEmail(user.email)) {
       throw new Error('A user with this email already exists.');
     }
