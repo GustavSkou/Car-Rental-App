@@ -23,6 +23,11 @@ Car owners can view these requests and offer a suitable car.
 ## Technologies
 React Native
 TypeScript
+Expo SQLite
+
+Persistence is provided by SQLite through the service interfaces. The car service imports and validates the remote catalogue at startup. The remote `make`, `pricePerDay`, and `isAvailable` fields map to the existing `Car` model's `brand`, `dailyPrice`, and `status`; missing rental fields use explicit defaults (`DKK`, an empty location, no images, and owner `0`).
+
+For Expo web, restart the development server after changing `metro.config.js`. Expo SQLite web requires cross-origin isolation; the Metro configuration supplies the required `Cross-Origin-Opener-Policy` and `Cross-Origin-Embedder-Policy` headers for the HTML entry point. If an existing server was started before this configuration, stop it and run `npx expo start --web` again.
 
 ## Group members:
 Bashir Abdinasir Mahamed Muhdi

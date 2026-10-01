@@ -7,4 +7,5 @@ export interface CarServiceInterface {
   getCarsForOwner(ownerId: number): Car[];
   createCar(car: Car): Car;
   deleteCar(id: number, ownerId: number): boolean;
+  importCarsFromApi(): Promise<number>;
 }
