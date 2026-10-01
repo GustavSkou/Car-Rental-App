@@ -39,3 +39,33 @@ Docs: https://docs.expo.dev/eas/index.md
 - If `ios/` and `android/` directories do not exist, they are generated (Continuous Native Generation). Never create or edit them by hand — configure native behavior in `app.json` and config plugins.
 - Expo Go only includes its bundled native modules. After adding a library with native code, the app needs a development build: `npx expo run:ios|android` locally, or `eas build --profile development`.
 - Prefer recommended Expo modules over third-party libraries, and check your available skills before adding dependencies. Docs: https://docs.expo.dev/versions/latest/index.md
+
+## Project Context
+
+- **App:** Peer-to-Peer Car Rental Mobile App (SDU Mobile Software Development, Fall 2026).
+
+## UI & Design System Tokens (Plane 5.1 Strict Compliance)
+
+Never hallucinate or use default Tailwind / raw hex colors outside these approved tokens:
+
+### Colors
+
+- `Background`: `#FFFFFF`
+- `Surface (cards/inputs)`: `#F4F5F6`
+- `Primary (text/main buttons)`: `#111418`
+- `Secondary Text`: `#5A6272`
+- `Accent`: `#F2A93B` (**Reserved exclusively** for "Request a car" and active states; must use dark text)
+- `Error`: `#C8281E`
+- `Success`: `#0F7F40`
+
+### Spacing & Metrics
+
+- 4-pt spacing grid only: `4`, `8`, `12`, `16`, `24`, `32`.
+- Screen horizontal padding: `16`.
+- Card & image border-radius: `16`.
+- Minimum touch target for interactive elements: **44 x 44 pt**.
+- Typography: Apple SF Pro using standard Dynamic Type scales.
+
+## Agent Prohibitions
+
+- **No Unbounded States:** Always implement **Loading**, **Empty**, **Error**, and **Offline** states for data-driven screens
