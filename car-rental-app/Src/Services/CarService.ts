@@ -1,7 +1,7 @@
-import { Car, CarStatus, Location } from '../Models';
-import carsData from '../Data/cars.json';
-import { canUseSqlite, getDatabase, insertCar } from '../Database';
-import { CarServiceInterface } from './CarServiceInterface';
+import { Car, CarStatus, Location } from "../Models";
+import carsData from "../Data/cars.json";
+import { canUseSqlite, getDatabase, insertCar } from "../Database";
+import { CarServiceInterface } from "./CarServiceInterface";
 
 type RemoteCar = {
   id: number;
@@ -29,19 +29,33 @@ type StoredCar = {
 };
 
 const carsUrl =
-  'https://raw.githubusercontent.com/OthelloEngineer/mobile-software-development-exercises/refs/heads/main/cars.json';
+  "https://raw.githubusercontent.com/OthelloEngineer/mobile-software-development-exercises/refs/heads/main/cars.json";
 let webCars = carsData.map((car) => toWebModel(car));
+
+const carImages: Record<string, string> = {
+  "Hyundai Elantra": "IMAGE_URL_HERE",
+  "Honda Civic": "IMAGE_URL_HERE",
+  "Toyota Camry": "IMAGE_URL_HERE",
+  "Volkswagen Jetta": "IMAGE_URL_HERE",
+};
 
 export class CarService implements CarServiceInterface {
   getAllCars(): Car[] {
     if (!canUseSqlite()) return webCars.map(copyCar);
-    return this.rowsToModels(this.db().getAllSync<StoredCar>('SELECT * FROM cars ORDER BY id'));
+    return this.rowsToModels(
+      this.db().getAllSync<StoredCar>("SELECT * FROM cars ORDER BY id"),
+    );
   }
 
   getAvailableCars(): Car[] {
-    if (!canUseSqlite()) return webCars.filter((car) => car.status === CarStatus.Available).map(copyCar);
+    if (!canUseSqlite())
+      return webCars
+        .filter((car) => car.status === CarStatus.Available)
+        .map(copyCar);
     return this.rowsToModels(
-      this.db().getAllSync<StoredCar>("SELECT * FROM cars WHERE status = 'Available' ORDER BY id"),
+      this.db().getAllSync<StoredCar>(
+        "SELECT * FROM cars WHERE status = 'Available' ORDER BY id",
+      ),
     );
   }
 
@@ -50,14 +64,21 @@ export class CarService implements CarServiceInterface {
       const car = webCars.find((candidate) => candidate.id === id);
       return car ? copyCar(car) : undefined;
     }
-    const row = this.db().getFirstSync<StoredCar>('SELECT * FROM cars WHERE id = ?', id);
+    const row = this.db().getFirstSync<StoredCar>(
+      "SELECT * FROM cars WHERE id = ?",
+      id,
+    );
     return row ? this.toModel(row) : undefined;
   }
 
   getCarsForOwner(ownerId: number): Car[] {
-    if (!canUseSqlite()) return webCars.filter((car) => car.ownerId === ownerId).map(copyCar);
+    if (!canUseSqlite())
+      return webCars.filter((car) => car.ownerId === ownerId).map(copyCar);
     return this.rowsToModels(
-      this.db().getAllSync<StoredCar>('SELECT * FROM cars WHERE owner_id = ? ORDER BY id', ownerId),
+      this.db().getAllSync<StoredCar>(
+        "SELECT * FROM cars WHERE owner_id = ? ORDER BY id",
+        ownerId,
+      ),
     );
   }
 
@@ -87,46 +108,61 @@ export class CarService implements CarServiceInterface {
 
   deleteCar(id: number, ownerId: number): boolean {
     if (!canUseSqlite()) {
-      const exists = webCars.some((car) => car.id === id && car.ownerId === ownerId);
-      webCars = webCars.filter((car) => car.id !== id || car.ownerId !== ownerId);
+      const exists = webCars.some(
+        (car) => car.id === id && car.ownerId === ownerId,
+      );
+      webCars = webCars.filter(
+        (car) => car.id !== id || car.ownerId !== ownerId,
+      );
       return exists;
     }
-    const result = this.db().runSync('DELETE FROM cars WHERE id = ? AND owner_id = ?', id, ownerId);
+    const result = this.db().runSync(
+      "DELETE FROM cars WHERE id = ? AND owner_id = ?",
+      id,
+      ownerId,
+    );
     return result.changes > 0;
   }
 
   async importCarsFromApi(): Promise<number> {
     const response = await fetch(carsUrl);
     if (!response.ok) {
-      throw new Error(`Unable to load car data (${response.status} ${response.statusText}).`);
+      throw new Error(
+        `Unable to load car data (${response.status} ${response.statusText}).`,
+      );
     }
 
     const payload: unknown = await response.json();
     if (!Array.isArray(payload) || !payload.every(isRemoteCar)) {
-      throw new Error('The remote car data does not match the expected API model.');
+      throw new Error(
+        "The remote car data does not match the expected API model.",
+      );
     }
 
-    const importedCars = payload.map((car) => new Car(
-      car.id,
-      0,
-      car.make.trim(),
-      car.model.trim(),
-      car.year,
-      car.isAvailable ? CarStatus.Available : CarStatus.Blocked,
-      car.pricePerDay,
-      'DKK',
-      new Location(),
-      [],
-      new Date(),
-      new Date(),
-    ));
+    const importedCars = payload.map(
+      (car) =>
+        new Car(
+          car.id,
+          0,
+          car.make.trim(),
+          car.model.trim(),
+          car.year,
+          car.isAvailable ? CarStatus.Available : CarStatus.Blocked,
+          car.pricePerDay,
+          "DKK",
+          new Location(),
+          [],
+          new Date(),
+          new Date(),
+        ),
+    );
 
     if (!canUseSqlite()) {
       webCars = importedCars;
     } else {
       const db = this.db();
       db.withTransactionSync(() => {
-        db.runSync('DELETE FROM cars');
+        db.runSync("DELETE FROM cars");
         for (const car of importedCars) insertCar(db, car);
       });
     }
@@ -139,7 +175,9 @@ export class CarService implements CarServiceInterface {
   }
 
   private nextId(): number {
-    const row = this.db().getFirstSync<{ maxId: number | null }>('SELECT MAX(id) AS maxId FROM cars');
+    const row = this.db().getFirstSync<{ maxId: number | null }>(
+      "SELECT MAX(id) AS maxId FROM cars",
+    );
     return (row?.maxId ?? 0) + 1;
   }
 
@@ -193,16 +231,16 @@ export class CarService implements CarServiceInterface {
 }
 
 function isRemoteCar(value: unknown): value is RemoteCar {
-  if (!value || typeof value !== 'object') return false;
+  if (!value || typeof value !== "object") return false;
   const car = value as Record<string, unknown>;
   return (
     Number.isInteger(car.id) &&
-    typeof car.make === 'string' &&
-    typeof car.model === 'string' &&
+    typeof car.make === "string" &&
+    typeof car.model === "string" &&
     Number.isInteger(car.year) &&
-    typeof car.color === 'string' &&
-    typeof car.pricePerDay === 'number' &&
-    typeof car.isAvailable === 'boolean'
+    typeof car.color === "string" &&
+    typeof car.pricePerDay === "number" &&
+    typeof car.isAvailable === "boolean"
   );
 }
 

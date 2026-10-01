@@ -1,24 +1,26 @@
-import { openDatabaseSync, type SQLiteDatabase } from 'expo-sqlite';
-import carsData from '../Data/cars.json';
-import bookingsData from '../Data/bookings.json';
-import requestsData from '../Data/requests.json';
-import usersData from '../Data/users.json';
+import { openDatabaseSync, type SQLiteDatabase } from "expo-sqlite";
+import carsData from "../Data/cars.json";
+import bookingsData from "../Data/bookings.json";
+import requestsData from "../Data/requests.json";
+import usersData from "../Data/users.json";
 
 let database: SQLiteDatabase | undefined;
 
 export function canUseSqlite(): boolean {
-  return typeof document === 'undefined' || globalThis.crossOriginIsolated === true;
+  return (
+    typeof document === "undefined" || globalThis.crossOriginIsolated === true
+  );
 }
 
 export function getDatabase(): SQLiteDatabase {
   if (!canUseSqlite()) {
     throw new Error(
-      'SQLite web support requires a cross-origin-isolated page. Use a native Expo build or serve the web app with COOP/COEP headers.',
+      "SQLite web support requires a cross-origin-isolated page. Use a native Expo build or serve the web app with COOP/COEP headers.",
     );
   }
 
   if (!database) {
-    database = openDatabaseSync('car-rental.db');
+    database = openDatabaseSync("car-rental.db");
     database.execSync(`
       PRAGMA foreign_keys = ON;
       CREATE TABLE IF NOT EXISTS users (
@@ -79,7 +81,9 @@ export function getDatabase(): SQLiteDatabase {
 }
 
 function seedDatabase(db: SQLiteDatabase): void {
-  const userCount = db.getFirstSync<{ count: number }>('SELECT COUNT(*) AS count FROM users');
+  const userCount = db.getFirstSync<{ count: number }>(
+    "SELECT COUNT(*) AS count FROM users",
+  );
   if ((userCount?.count ?? 0) === 0) {
     for (const user of usersData) {
       db.runSync(
@@ -90,7 +94,7 @@ function seedDatabase(db: SQLiteDatabase): void {
         user.firstName,
         user.lastName,
         user.email,
-        user.password ?? '',
+        user.password ?? "",
         user.phoneNumber,
         user.isVerified ? 1 : 0,
         user.createdAt,
@@ -99,14 +103,18 @@ function seedDatabase(db: SQLiteDatabase): void {
     }
   }
 
-  const carCount = db.getFirstSync<{ count: number }>('SELECT COUNT(*) AS count FROM cars');
+  const carCount = db.getFirstSync<{ count: number }>(
+    "SELECT COUNT(*) AS count FROM cars",
+  );
   if ((carCount?.count ?? 0) === 0) {
     for (const car of carsData) {
       insertCar(db, car);
     }
   }
 
-  const bookingCount = db.getFirstSync<{ count: number }>('SELECT COUNT(*) AS count FROM bookings');
+  const bookingCount = db.getFirstSync<{ count: number }>(
+    "SELECT COUNT(*) AS count FROM bookings",
+  );
   if ((bookingCount?.count ?? 0) === 0) {
     for (const booking of bookingsData) {
       db.runSync(
@@ -124,14 +132,18 @@ function seedDatabase(db: SQLiteDatabase): void {
         booking.currency,
         booking.status,
         booking.paymentStatus,
-        'review' in booking && booking.review ? JSON.stringify(booking.review) : null,
+        "review" in booking && booking.review
+          ? JSON.stringify(booking.review)
+          : null,
         booking.createdAt,
         booking.updatedAt,
       );
     }
   }
 
-  const requestCount = db.getFirstSync<{ count: number }>('SELECT COUNT(*) AS count FROM car_requests');
+  const requestCount = db.getFirstSync<{ count: number }>(
+    "SELECT COUNT(*) AS count FROM car_requests",
+  );
   if ((requestCount?.count ?? 0) === 0) {
     for (const request of requestsData) {
       db.runSync(
@@ -151,20 +163,23 @@ function seedDatabase(db: SQLiteDatabase): void {
   }
 }
 
-export function insertCar(db: SQLiteDatabase, car: {
-  id: number;
-  ownerId: number;
-  brand: string;
-  model: string;
-  year: number;
-  status: string;
-  dailyPrice: number;
-  currency: string;
-  location: object;
-  imageUrls: string[];
-  createdAt: string | Date;
-  updatedAt: string | Date;
-}): void {
+export function insertCar(
+  db: SQLiteDatabase,
+  car: {
+    id: number;
+    ownerId: number;
+    brand: string;
+    model: string;
+    year: number;
+    status: string;
+    dailyPrice: number;
+    currency: string;
+    location: object;
+    imageUrls: string[];
+    createdAt: string | Date;
+    updatedAt: string | Date;
+  },
+): void {
   db.runSync(
     `INSERT OR REPLACE INTO cars
       (id, owner_id, brand, model, year, status, daily_price, currency,

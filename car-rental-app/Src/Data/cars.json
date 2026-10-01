@@ -17,7 +17,9 @@
       "longitude": 10.4024,
       "pickupInstructions": "Meet by the main entrance."
     },
-    "imageUrls": [],
+    "imageUrls": [
+      "https://images.prismic.io/carwow/E4o4gKF59KUw_Kw8_VolvoXC40TomWiltshireheaderimage.jpg?auto=format&cs=tinysrgb&fit=max&q=60"
+    ],
     "createdAt": "2025-02-12T10:00:00.000Z",
     "updatedAt": "2025-02-12T10:00:00.000Z",
     "ownerId": 2
@@ -40,7 +42,9 @@
       "longitude": 10.2039,
       "pickupInstructions": "The key is in the lockbox by the gate."
     },
-    "imageUrls": [],
+    "imageUrls": [
+      "https://image.made-in-china.com/2f0j00ZujkUTDdglzg/Toyota-Corolla-2022-Dual-Engine-1-8L-E-CVT-Pioneer-Edition-High-Quality-5-Person-4-Wheel-High-Speed-Car.webp"
+    ],
     "createdAt": "2025-02-16T10:00:00.000Z",
     "updatedAt": "2025-02-16T10:00:00.000Z",
     "ownerId": 3
@@ -63,7 +67,7 @@
       "longitude": 12.5851,
       "pickupInstructions": "The car is parked on level two."
     },
-    "imageUrls": [],
+    "imageUrls": ["https://images.pistonheads.com/nimg/44520/DSCF5675.jpg"],
     "createdAt": "2025-02-20T10:00:00.000Z",
     "updatedAt": "2025-02-20T10:00:00.000Z",
     "ownerId": 4
