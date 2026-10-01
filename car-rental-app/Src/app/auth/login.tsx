@@ -24,7 +24,7 @@ export default function LoginScreen() {
 
   function handleLogin() {
     if (login(email, password)) {
-      const destination = redirect === '/bookings' || redirect === '/requests' || redirect === '/cars'
+      const destination = redirect === '/bookings' || redirect === '/requests' || redirect === '/cars' || redirect?.startsWith('/cars/')
         ? redirect
         : '/listings';
 

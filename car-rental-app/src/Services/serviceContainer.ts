@@ -11,7 +11,3 @@ export const bookingService: BookingServiceInterface = new BookingService();
 export const carRequestService: CarRequestServiceInterface = new CarRequestService();
 export const carService: CarServiceInterface = new CarService();
 export const userService: UserServiceInterface = new UserService();
-
-void carService.importCarsFromApi().catch((error: unknown) => {
-  console.error('Failed to import cars from the remote catalogue.', error);
-});

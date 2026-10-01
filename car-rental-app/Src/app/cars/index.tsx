@@ -1,6 +1,6 @@
 import { router } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import {
   Image,
   Pressable,
@@ -21,7 +21,33 @@ export default function CarsScreen() {
   const [city, setCity] = useState('');
   const [selectedBrand, setSelectedBrand] = useState('All');
   const [sortAscending, setSortAscending] = useState(true);
-  const availableCars = useMemo(() => carService.getAvailableCars(), []);
+  const [availableCars, setAvailableCars] = useState(() => carService.getAvailableCars());
+  const [isLoading, setIsLoading] = useState(true);
+  const [loadError, setLoadError] = useState<string | null>(null);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    async function loadCars() {
+      try {
+        await carService.importCarsFromApi();
+        if (isMounted) setAvailableCars(carService.getAvailableCars());
+      } catch (error: unknown) {
+        console.error('Failed to load cars from the remote catalogue.', error);
+        if (isMounted) {
+          setLoadError('Unable to refresh the car catalogue. Showing saved cars instead.');
+          setAvailableCars(carService.getAvailableCars());
+        }
+      } finally {
+        if (isMounted) setIsLoading(false);
+      }
+    }
+
+    void loadCars();
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   const visibleCars = useMemo(
     () =>
@@ -60,8 +86,10 @@ export default function CarsScreen() {
             <Text style={styles.eyebrow}>Browse</Text>
             <Text style={styles.title}>Available cars</Text>
           </View>
-          <Text style={styles.resultCount}>{visibleCars.length} cars</Text>
+          <Text style={styles.resultCount}>{isLoading ? 'Loading...' : `${visibleCars.length} cars`}</Text>
         </View>
+
+        {loadError ? <Text style={styles.loadError}>{loadError}</Text> : null}
 
         <SearchBar
           autoCapitalize="words"
@@ -152,6 +180,7 @@ const styles = StyleSheet.create({
   },
   title: { color: '#111', fontSize: 28, fontWeight: '600', marginTop: 3 },
   resultCount: { color: '#666', fontSize: 14, marginBottom: 4 },
+  loadError: { color: '#9a3412', fontSize: 14, marginTop: 8 },
   controlRow: { alignItems: 'center', flexDirection: 'row', marginTop: 12 },
   sortButton: { borderColor: '#1a1a1a', borderWidth: 1, paddingHorizontal: 10, paddingVertical: 8 },
   sortText: { color: '#222', fontSize: 13 },
