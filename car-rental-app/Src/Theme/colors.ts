@@ -1,32 +1,40 @@
 export const colors = {
-  //Main backgrounds
-  background: "#E3DEDB",
-  surface: "#E6E1DE",
+  // Main backgrounds
+  background: "#EAE3D8",
+  surface: "#F6F0E7",
 
-  //Brand
-  primary: "#815B4C",
-  secondary: "#705347",
+  // Brand
+  primary: "#541F2B",
+  secondary: "#9A7A52",
 
-  //Dark luxury tones
-  darkBackground: "#120B09",
-  darkSurface: "#281A17",
-  darkBrown: "#38241F",
-  cocoa: "#573A32",
+  // Dark luxury tones
+  darkBackground: "#14090D",
+  darkSurface: "#251017",
+  darkBrown: "#2B1C19",
+  cocoa: "#694637",
 
-  //Text
-  text: "#120B09",
-  secondaryText: "#705347",
-  textOnDark: "#E6E1DE",
-  mutedText: "#ABA098",
+  // Luxury accent tones
+  oxblood: "#3D141D",
+  burgundy: "#541F2B",
+  deepBurgundy: "#351018",
+  midnightNavy: "#151C29",
+  antiqueGold: "#A48655",
+  cognac: "#7B4D35",
 
-  //Borders / inputs
-  border: "#ABA098",
-  inputBackground: "#E6E1DE",
+  // Text
+  text: "#1D1516",
+  secondaryText: "#695D5D",
+  textOnDark: "#F4EDE2",
+  mutedText: "#9D9390",
 
-  //states
-  error: "#B42318",
+  // Borders / inputs
+  border: "#D0C3B7",
+  inputBackground: "#F6F0E7",
 
-  //basic
+  // States
+  error: "#9B3434",
+
+  // Basic
   white: "#FFFFFF",
   transparent: "transparent",
 } as const;
