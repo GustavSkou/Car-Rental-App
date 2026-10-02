@@ -1,4 +1,5 @@
-import { Pressable, ScrollView, StyleSheet, Text } from 'react-native';
+import { colors } from "@/Theme";
+import { Pressable, ScrollView, StyleSheet, Text } from "react-native";
 
 type CarFilterButtonsProps = {
   options: string[];
@@ -6,7 +7,11 @@ type CarFilterButtonsProps = {
   onSelect: (option: string) => void;
 };
 
-export function CarFilterButtons({ options, selectedOption, onSelect }: CarFilterButtonsProps) {
+export function CarFilterButtons({
+  options,
+  selectedOption,
+  onSelect,
+}: CarFilterButtonsProps) {
   return (
     <ScrollView
       contentContainerStyle={styles.filters}
@@ -21,9 +26,17 @@ export function CarFilterButtons({ options, selectedOption, onSelect }: CarFilte
             accessibilityRole="button"
             key={option}
             onPress={() => onSelect(option)}
-            style={[styles.filterButton, isSelected && styles.filterButtonSelected]}
+            style={[
+              styles.filterButton,
+              isSelected && styles.filterButtonSelected,
+            ]}
           >
-            <Text style={[styles.filterText, isSelected && styles.filterTextSelected]}>
+            <Text
+              style={[
+                styles.filterText,
+                isSelected && styles.filterTextSelected,
+              ]}
+            >
               {option}
             </Text>
           </Pressable>
@@ -34,14 +47,29 @@ export function CarFilterButtons({ options, selectedOption, onSelect }: CarFilte
 }
 
 const styles = StyleSheet.create({
-  filters: { alignItems: 'center', gap: 8, paddingRight: 8 },
+  filters: {
+    alignItems: "center",
+    gap: 8,
+    paddingRight: 8,
+  },
   filterButton: {
-    borderColor: '#1a1a1a',
+    backgroundColor: colors.surface,
+    borderColor: colors.border,
     borderWidth: 1,
-    paddingHorizontal: 12,
+    borderRadius: 20,
+    paddingHorizontal: 14,
     paddingVertical: 8,
   },
-  filterButtonSelected: { backgroundColor: '#111' },
-  filterText: { color: '#222', fontSize: 14 },
-  filterTextSelected: { color: '#fff', fontWeight: '700' },
+  filterButtonSelected: {
+    backgroundColor: colors.primary,
+    borderColor: colors.primary,
+  },
+  filterText: {
+    color: colors.text,
+    fontSize: 14,
+  },
+  filterTextSelected: {
+    color: colors.textOnDark,
+    fontWeight: "700",
+  },
 });

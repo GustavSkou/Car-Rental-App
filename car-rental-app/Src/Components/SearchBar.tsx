@@ -1,4 +1,6 @@
-import { StyleSheet, TextInput, type TextInputProps } from 'react-native';
+import { StyleSheet, TextInput, type TextInputProps } from "react-native";
+
+import { colors } from "../Theme";
 
 export function SearchBar({ style, ...props }: TextInputProps) {
   return <TextInput {...props} style={[styles.input, style]} />;
@@ -6,9 +8,10 @@ export function SearchBar({ style, ...props }: TextInputProps) {
 
 const styles = StyleSheet.create({
   input: {
-    borderColor: '#222',
+    backgroundColor: colors.surface,
+    borderColor: colors.border,
     borderWidth: 1,
-    color: '#111',
+    color: colors.text,
     fontSize: 16,
     height: 46,
     paddingHorizontal: 14,

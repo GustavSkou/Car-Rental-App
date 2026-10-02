@@ -1,17 +1,18 @@
-import { useState } from 'react';
-import { router, Redirect } from 'expo-router';
-import { Pressable, StyleSheet, Text, TextInput } from 'react-native';
-import { ScreenShell } from '@/Components/ScreenShell';
-import { useAuth } from '@/Context/AuthContext';
-import { CarRequest, TimePeriod } from '@/Models';
-import { carRequestService, userService } from '@/Services';
+import { useState } from "react";
+import { router, Redirect } from "expo-router";
+import { Pressable, StyleSheet, Text, TextInput } from "react-native";
+import { ScreenShell } from "@/Components/ScreenShell";
+import { useAuth } from "@/Context/AuthContext";
+import { CarRequest, TimePeriod } from "@/Models";
+import { carRequestService, userService } from "@/Services";
+import { colors } from "@/Theme";
 
 export default function NewRequestScreen() {
   const { isLoggedIn, userEmail } = useAuth();
-  const [budget, setBudget] = useState('');
-  const [startDate, setStartDate] = useState('');
-  const [endDate, setEndDate] = useState('');
-  const [error, setError] = useState('');
+  const [budget, setBudget] = useState("");
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+  const [error, setError] = useState("");
 
   if (!isLoggedIn || !userEmail) {
     return <Redirect href="/auth/login?redirect=/requests/new" />;
@@ -25,19 +26,29 @@ export default function NewRequestScreen() {
     const parsedStartDate = new Date(`${startDate}T00:00:00`);
     const parsedEndDate = new Date(`${endDate}T00:00:00`);
 
-    if (!renter || !budget || !Number.isFinite(parsedBudget) || parsedBudget <= 0) {
-      setError('Enter a budget greater than zero.');
+    if (
+      !renter ||
+      !budget ||
+      !Number.isFinite(parsedBudget) ||
+      parsedBudget <= 0
+    ) {
+      setError("Enter a budget greater than zero.");
       return;
     }
 
-    if (!startDate || !endDate || Number.isNaN(parsedStartDate.getTime()) || Number.isNaN(parsedEndDate.getTime())) {
-      setError('Enter valid start and end dates.');
+    if (
+      !startDate ||
+      !endDate ||
+      Number.isNaN(parsedStartDate.getTime()) ||
+      Number.isNaN(parsedEndDate.getTime())
+    ) {
+      setError("Enter valid start and end dates.");
       return;
     }
 
     const period = new TimePeriod(parsedStartDate, parsedEndDate);
     if (!period.isValid()) {
-      setError('The end date must be on or after the start date.');
+      setError("The end date must be on or after the start date.");
       return;
     }
 
@@ -47,7 +58,7 @@ export default function NewRequestScreen() {
         Date.now(),
         renter.id,
         parsedBudget,
-        'DKK',
+        "DKK",
         period,
         undefined,
         now,
@@ -55,20 +66,25 @@ export default function NewRequestScreen() {
       ),
     );
 
-    router.replace('/requests');
+    router.replace("/requests");
   }
 
   return (
-    <ScreenShell backHref="/requests" eyebrow="New request" title="Add request" description="Set your budget and rental period so owners can respond.">
+    <ScreenShell
+      backHref="/requests"
+      eyebrow="New request"
+      title="Add request"
+      description="Set your budget and rental period so owners can respond."
+    >
       <Text style={styles.label}>Maximum budget (DKK)</Text>
       <TextInput
         keyboardType="decimal-pad"
         onChangeText={(value) => {
           setBudget(value);
-          setError('');
+          setError("");
         }}
         placeholder="750"
-        placeholderTextColor="#8a8a8a"
+        placeholderTextColor={colors.mutedText}
         style={styles.input}
         value={budget}
       />
@@ -78,10 +94,10 @@ export default function NewRequestScreen() {
         autoCapitalize="none"
         onChangeText={(value) => {
           setStartDate(value);
-          setError('');
+          setError("");
         }}
         placeholder="YYYY-MM-DD"
-        placeholderTextColor="#8a8a8a"
+        placeholderTextColor={colors.mutedText}
         style={styles.input}
         value={startDate}
       />
@@ -91,11 +107,11 @@ export default function NewRequestScreen() {
         autoCapitalize="none"
         onChangeText={(value) => {
           setEndDate(value);
-          setError('');
+          setError("");
         }}
         onSubmitEditing={handleSubmit}
         placeholder="YYYY-MM-DD"
-        placeholderTextColor="#8a8a8a"
+        placeholderTextColor={colors.mutedText}
         returnKeyType="done"
         style={styles.input}
         value={endDate}
@@ -103,7 +119,11 @@ export default function NewRequestScreen() {
 
       {error ? <Text style={styles.error}>{error}</Text> : null}
 
-      <Pressable accessibilityRole="button" onPress={handleSubmit} style={styles.submitButton}>
+      <Pressable
+        accessibilityRole="button"
+        onPress={handleSubmit}
+        style={styles.submitButton}
+      >
         <Text style={styles.submitText}>Save request</Text>
       </Pressable>
     </ScreenShell>
@@ -111,18 +131,36 @@ export default function NewRequestScreen() {
 }
 
 const styles = StyleSheet.create({
-  label: { color: '#172321', fontSize: 15, fontWeight: '700', marginTop: 6 },
+  label: {
+    color: colors.text,
+    fontSize: 15,
+    fontWeight: "700",
+    marginTop: 6,
+  },
   input: {
-    backgroundColor: '#ffffff',
-    borderColor: '#dce5e2',
-    borderRadius: 10,
+    backgroundColor: colors.surface,
+    borderColor: colors.border,
+    borderRadius: 16,
     borderWidth: 1,
-    color: '#172321',
+    color: colors.text,
     fontSize: 16,
     height: 52,
     paddingHorizontal: 14,
   },
-  error: { color: '#b42318', fontSize: 14 },
-  submitButton: { alignItems: 'center', backgroundColor: '#426b63', borderRadius: 10, marginTop: 8, padding: 16 },
-  submitText: { color: '#ffffff', fontSize: 16, fontWeight: '800' },
+  error: {
+    color: colors.error,
+    fontSize: 14,
+  },
+  submitButton: {
+    alignItems: "center",
+    backgroundColor: colors.primary,
+    borderRadius: 16,
+    marginTop: 8,
+    padding: 16,
+  },
+  submitText: {
+    color: colors.textOnDark,
+    fontSize: 16,
+    fontWeight: "800",
+  },
 });
