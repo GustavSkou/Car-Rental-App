@@ -151,7 +151,7 @@ export class CarService implements CarServiceInterface {
           car.pricePerDay,
           "DKK",
           new Location(),
-          [],
+          [getCarImageUrl(car.make, car.model)],
           new Date(),
           new Date(),
         ),
@@ -294,4 +294,26 @@ function copyCar(car: Car): Car {
     new Date(car.createdAt),
     new Date(car.updatedAt),
   );
+}
+
+function getCarImageUrl(make: string, model: string): string {
+  const key = `${make} ${model}`.toLowerCase();
+
+  const images: Record<string, string> = {
+    'audi a4': 'https://hips.hearstapps.com/hmg-prod/images/2021-audi-a4-45-tfsi-quattro-104-1607927016.jpg?crop=0.450xw:0.380xh;0.226xw,0.399xh&resize=2048:*',
+    'chevrolet tahoe': 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1S4IeSHvrj8hxWWwkPmGfTjeTXIXbpCJLjk4oyninpg&s=10',
+    'dodge charger': 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRrlo-2NHSGA4g3QyfwXwX4uOKc_qSraW1yFWUsWiekUg&s=10',
+    'ford explorer': 'https://images.ctfassets.net/9ji0mnletnv4/1E4FpWLrlma9vkxjmiyBCj/4c279d6ea71521a33570fa5ec41fdfe7/ford_explorer_hybrid_1920x1080.jpg?fm=webp&q=75',
+    'ford mustang': 'https://www.topgear.com/sites/default/files/cars-car/image/2024/12/54196859052_9249719e93_o.jpg',
+    'honda civic': 'https://www.honda.dk/content/dam/central/cars/civic-hybrid/2025/overview/desktop/F3%20opening%20paroramic%20roof.png',
+    'hyundai elantra': 'https://hips.hearstapps.com/mtg-prod/66a9771652c45400082bd012/21-2025-hyundai-elantra-n-front-view.jpg',
+    'nissan altima': 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRH2wLWJA8iNZ18TnRkfzrMMXmQmV0VwpHtciBN2IxKvw&s=10',
+    'subaru outback': 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT115Tarr12VpMVJkh2iuvNlLw10z4eQRt099svdy6uAw&s=10',
+    'tesla model 3': 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQA1PebRn8b7ph_UKaW0ymZENiVg_iV5Z9cBaNUR1cUrA&s=10',
+    'tesla model s': 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRnzA51kynNqf5vkw95CtVBwG-tPo3Jm9ZlXyOkW2co1g&s=10',
+    'toyota camry': 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTXPiJ_MXcj5lcl9KiJM3t1V4H-s3AyyPOvjtsG1Z7bdg&s=10',
+    'volkswagen jetta': 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR1Jw49_FefmUz-vhRLGn7-cl8pTcZU4dRlKmVBF5Cnww&s=10',
+  };
+
+  return images[key] ?? '';
 }
